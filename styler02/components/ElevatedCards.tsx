@@ -1,7 +1,7 @@
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
-export default function ElevetedCards() {
+export default function ElevatedCards() {
   return (
     <View>
       <Text style={styles.headingText}>Elevated Cards</Text>
