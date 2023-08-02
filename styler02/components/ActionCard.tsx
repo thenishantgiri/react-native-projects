@@ -152,6 +152,7 @@ const styles = StyleSheet.create({
   author: {
     marginLeft: 8,
     alignSelf: 'center',
+    color: '#081b4b',
   },
   authorLink: {
     textDecorationLine: 'underline',
