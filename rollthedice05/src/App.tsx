@@ -1,5 +1,12 @@
-import {ImageSourcePropType, StyleSheet, Image, Text, View} from 'react-native';
-import React, {PropsWithChildren} from 'react';
+import {
+  ImageSourcePropType,
+  StyleSheet,
+  Image,
+  Text,
+  View,
+  Pressable,
+} from 'react-native';
+import React, {PropsWithChildren, useState} from 'react';
 
 import DiceOne from '../assets/One.png';
 import DiceTwo from '../assets/Two.png';
@@ -9,6 +16,7 @@ import DiceFive from '../assets/Five.png';
 import DiceSix from '../assets/Six.png';
 
 type DiceProps = PropsWithChildren<{
+  // ImageSourcePropType: ensures that the source(string) passed is that of an image
   imageUrl: ImageSourcePropType;
 }>;
 
@@ -21,9 +29,43 @@ const Dice = ({imageUrl}: DiceProps): JSX.Element => {
 };
 
 export default function App() {
+  const [diceImage, setDiceImage] = useState<ImageSourcePropType>(DiceOne);
+
+  const rollDiceOnTap = () => {
+    let randomNumber = Math.floor(Math.random() * 6) + 1;
+
+    switch (randomNumber) {
+      case 1:
+        setDiceImage(DiceOne);
+        break;
+      case 2:
+        setDiceImage(DiceTwo);
+        break;
+      case 3:
+        setDiceImage(DiceThree);
+        break;
+      case 4:
+        setDiceImage(DiceFour);
+        break;
+      case 5:
+        setDiceImage(DiceFive);
+        break;
+      case 6:
+        setDiceImage(DiceSix);
+        break;
+
+      default:
+        setDiceImage(DiceOne);
+        break;
+    }
+  };
+
   return (
-    <View>
-      <Text>App</Text>
+    <View style={styles.container}>
+      <Dice imageUrl={diceImage} />
+      <Pressable onPress={rollDiceOnTap}>
+        <Text style={styles.rollDiceBtnText}>Roll the dice</Text>
+      </Pressable>
     </View>
   );
 }
