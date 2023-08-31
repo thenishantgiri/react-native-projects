@@ -10,16 +10,23 @@ import {
 
 import Snackbar from 'react-native-snackbar';
 import Icons from './components/Icons';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 function App(): JSX.Element {
   const [isCross, setIsCross] = useState<boolean>(false);
   const [gameWinner, setGameWinner] = useState<string>('');
   const [gameState, setGameState] = useState(new Array(9).fill('empty', 0, 9));
 
+  const options = {
+    enableVibrateFallback: true,
+    ignoreAndroidSystemSettings: false,
+  };
+
   const reloadGame = () => {
     setIsCross(false);
     setGameWinner('');
     setGameState(new Array(9).fill('empty', 0, 9));
+    ReactNativeHapticFeedback.trigger('impactHeavy', options);
   };
 
   const checkIsWinner = () => {
@@ -88,8 +95,10 @@ function App(): JSX.Element {
 
     if (gameState[itemNumber] === 'empty') {
       gameState[itemNumber] = isCross ? 'cross' : 'circle';
+      ReactNativeHapticFeedback.trigger('impactHeavy', options);
       setIsCross(!isCross);
     } else {
+      ReactNativeHapticFeedback.trigger('notificationWarning', options);
       return Snackbar.show({
         text: 'Position is already filled!',
         backgroundColor: 'red',
