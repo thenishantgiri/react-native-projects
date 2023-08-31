@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {SafeAreaView, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {
+  FlatList,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 import Snackbar from 'react-native-snackbar';
 import Icons from './components/Icons';
@@ -96,10 +103,45 @@ function App(): JSX.Element {
 
   return (
     <SafeAreaView>
-      <StatusBar />
-      <View>
-        <Text>Tic Tac Toe</Text>
-      </View>
+      {/* Game Status */}
+      {gameWinner ? (
+        <View style={[styles.playerInfo, styles.winnerInfo]}>
+          <Text style={styles.winnerTxt}>{gameWinner}</Text>
+        </View>
+      ) : (
+        <View
+          style={[
+            styles.playerInfo,
+            isCross ? styles.playerX : styles.playerO,
+          ]}>
+          <Text style={styles.gameTurnTxt}>
+            {' '}
+            Player {isCross ? '❌' : '⭕️'}'s Turn
+          </Text>
+        </View>
+      )}
+
+      {/* Game Grid */}
+      <FlatList
+        style={styles.grid}
+        numColumns={3}
+        data={gameState}
+        renderItem={({item, index}) => (
+          <Pressable
+            key={index}
+            style={styles.card}
+            onPress={() => onChangeItem(index)}>
+            <Icons name={item} />
+          </Pressable>
+        )}
+      />
+
+      {/* Game Reset */}
+      <Pressable style={styles.gameBtn} onPress={reloadGame}>
+        <Text style={styles.gameBtnText}>
+          {gameWinner ? 'Start New Game' : 'Reload Game'}
+        </Text>
+      </Pressable>
     </SafeAreaView>
   );
 }
